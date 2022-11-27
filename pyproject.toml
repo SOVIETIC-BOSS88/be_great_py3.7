@@ -25,7 +25,9 @@ dependencies = [
     "scikit_learn >= 1.0.2",
     "torch >= 1.10.2",
     "tqdm >= 4.64.1",
-    "transformers >= 4.20.1" 
+    "transformers >= 4.20.1",
+    "pyarrow >=6.0.0"
+
 ]
 
 [project.urls]
