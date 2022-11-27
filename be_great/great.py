@@ -57,7 +57,7 @@ class GReaT:
         self.llm = llm
         self.tokenizer = AutoTokenizer.from_pretrained(self.llm)
         self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.model = AutoModelForCausalLM.from_pretrained(self.llm)
+        self.model = AutoModelForCausalLM.from_pretrained(self.llm, n_positions=2048, ignore_mismatched_sizes=True)
 
         # Set the training hyperparameters
         self.experiment_dir = experiment_dir
