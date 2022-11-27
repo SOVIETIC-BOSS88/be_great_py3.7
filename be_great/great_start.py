@@ -3,7 +3,7 @@ import numpy as np
 import typing as tp
 
 
-def _pad(x, length: int, pad_value=50256):
+def _pad(x, length, pad_value=50256):
     """
     Prepend the pad value until the array reaches the specific length
     """
@@ -43,7 +43,7 @@ class GReaTStart:
         """
         self.tokenizer = tokenizer
 
-    def get_start_tokens(self, n_samples: int) -> tp.List[tp.List[int]]:
+    def get_start_tokens(self, n_samples):
         """ Get Start Tokens
 
         Creates starting points for the generation process
@@ -68,7 +68,7 @@ class CategoricalStart(GReaTStart):
         weights (list[float]): Probabilities for the individual categories
 
     """
-    def __init__(self, tokenizer, start_col: str, start_col_dist: dict):
+    def __init__(self, tokenizer, start_col, start_col_dist):
         """ Initializes the Categorical Start
 
         Args:
@@ -103,8 +103,7 @@ class ContinuousStart(GReaTStart):
         noise (float): Size of noise that is added to each value
         decimal_places (int): Number of decimal places the continuous values have
     """
-    def __init__(self, tokenizer, start_col: str, start_col_dist: tp.List[float],
-                 noise: float = .01, decimal_places: int = 5):
+    def __init__(self, tokenizer, start_col, start_col_dist, noise = .01, decimal_places = 5):
         """ Initializes the Continuous Start
 
         Args:
@@ -140,7 +139,7 @@ class RandomStart(GReaTStart):
     Attributes:
         all_columns (List[str]): Names of all columns
     """
-    def __init__(self, tokenizer, all_columns: tp.List[str]):
+    def __init__(self, tokenizer, all_columns):
         """ Initializes the Random Start
 
         Args:
