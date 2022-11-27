@@ -22,7 +22,7 @@ class GReaTDataset(Dataset):
         """
         self.tokenizer = tokenizer
 
-    def _getitem(self, key: tp.Union[int, slice, str], decoded: bool = True, **kwargs) -> tp.Union[tp.Dict, tp.List]:
+    def _getitem(self, key, decoded = True, **kwargs):
         """ Get Item from Tabular Data
 
         Get one instance of the tabular data, permuted, converted to text and tokenized.
@@ -47,7 +47,7 @@ class GReaTDataCollator(DataCollatorWithPadding):
 
     Overwrites the DataCollatorWithPadding to also pad the labels and not only the input_ids
     """
-    def __call__(self, features: tp.List[tp.Dict[str, tp.Any]]):
+    def __call__(self, features):
         batch = self.tokenizer.pad(
             features,
             padding=self.padding,
