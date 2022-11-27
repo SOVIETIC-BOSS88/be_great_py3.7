@@ -1,4 +1,3 @@
-#great.py
 import os
 import warnings
 import json
