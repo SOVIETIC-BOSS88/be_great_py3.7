@@ -1,3 +1,4 @@
+#great.py
 import os
 import warnings
 import json
@@ -10,15 +11,12 @@ import pandas as pd
 from tqdm import tqdm
 
 import torch
-from transformers import (AutoTokenizer,
-                          AutoModelForCausalLM,
-                          TrainingArguments)
+from transformers import (AutoTokenizer,AutoModelForCausalLM,TrainingArguments)
 
 from be_great.great_dataset import GReaTDataset, GReaTDataCollator
 from be_great.great_start import GReaTStart, CategoricalStart, ContinuousStart, RandomStart
 from be_great.great_trainer import GReaTTrainer
-from be_great.great_utils import _array_to_dataframe, _get_column_distribution, _convert_tokens_to_text, \
-    _convert_text_to_tabular_data
+from be_great.great_utils import _array_to_dataframe, _get_column_distribution, _convert_tokens_to_text, _convert_text_to_tabular_data
 
 
 class GReaT:
@@ -74,9 +72,7 @@ class GReaT:
         self.conditional_col = None
         self.conditional_col_dist = None
 
-    def fit(self, data: tp.Union[pd.DataFrame, np.ndarray], column_names: tp.Optional[tp.List[str]] = None,
-            conditional_col: tp.Optional[str] = None, resume_from_checkpoint: tp.Union[bool, str] = False) \
-            -> GReaTTrainer:
+    def fit(self, data, column_names, conditional_col = None, resume_from_checkpoint = False):
         """ Fine-tune GReaT using tabular data.
 
         Args:
@@ -114,9 +110,8 @@ class GReaT:
         great_trainer.train(resume_from_checkpoint=resume_from_checkpoint)
         return great_trainer
 
-    def sample(self, n_samples: int,
-               start_col: tp.Optional[str] = "", start_col_dist: tp.Optional[tp.Union[dict, list]] = None,
-               temperature: float = 0.7, k: int = 100, max_length: int = 100, device: str = "cuda") -> pd.DataFrame:
+    def sample(self, n_samples, start_col = "", start_col_dist = None, temperature = 0.7, k = 100, 
+                max_length = 100, device = "cuda"): 
         """ Generate synthetic tabular data samples
 
         Args:
@@ -177,8 +172,7 @@ class GReaT:
         df_gen = df_gen.reset_index(drop=True)
         return df_gen.head(n_samples)
 
-    def great_sample(self, starting_prompts: tp.Union[str, list[str]], temperature: float = 0.7, max_length: int = 100,
-                     device: str = "cuda") -> pd.DataFrame:
+    def great_sample(self, starting_prompts, temperature = 0.7, max_length = 100, device = "cuda"):
         """ Generate synthetic tabular data samples conditioned on a given input.
 
         Args:
@@ -216,7 +210,7 @@ class GReaT:
 
         return df_gen
 
-    def save(self, path: str):
+    def save(self, path):
         """ Save GReaT Model
 
         Saves the model weights and a configuration file in the given directory.
@@ -245,7 +239,7 @@ class GReaT:
         # Save model weights
         torch.save(self.model.state_dict(), path + "/model.pt")
 
-    def load_finetuned_model(self, path: str):
+    def load_finetuned_model(self, path):
         """ Load fine-tuned model
 
         Load the weights of a fine-tuned large language model into the GReaT pipeline
@@ -256,7 +250,7 @@ class GReaT:
         self.model.load_state_dict(torch.load(path))
 
     @classmethod
-    def load_from_dir(cls, path: str):
+    def load_from_dir(cls, path):
         """ Load GReaT class
 
         Load trained GReaT model from directory.
@@ -290,7 +284,7 @@ class GReaT:
         self.columns = df.columns.to_list()
         self.num_cols = df.select_dtypes(include=np.number).columns.to_list()
 
-    def _update_conditional_information(self, df: pd.DataFrame, conditional_col: tp.Optional[str] = None):
+    def _update_conditional_information(self, df, conditional_col = None):
         assert conditional_col is None or isinstance(conditional_col, str), \
             f"The column name has to be a string and not {type(conditional_col)}"
         assert conditional_col is None or conditional_col in df.columns, \
@@ -300,8 +294,7 @@ class GReaT:
         self.conditional_col = conditional_col if conditional_col else df.columns[-1]
         self.conditional_col_dist = _get_column_distribution(df, self.conditional_col)
 
-    def _get_start_sampler(self, start_col: tp.Optional[str],
-                           start_col_dist: tp.Optional[tp.Union[tp.Dict, tp.List]]) -> GReaTStart:
+    def _get_start_sampler(self, start_col, start_col_dist):
         if start_col and start_col_dist is None:
             raise ValueError(f"Start column {start_col} was given, but no corresponding distribution.")
         if start_col_dist is not None and not start_col:
