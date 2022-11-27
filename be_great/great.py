@@ -71,7 +71,7 @@ class GReaT:
         self.conditional_col = None
         self.conditional_col_dist = None
 
-    def fit(self, data, column_names, conditional_col = None, resume_from_checkpoint = False):
+    def fit(self, data, column_names = None, conditional_col = None, resume_from_checkpoint = False):
         """ Fine-tune GReaT using tabular data.
 
         Args:
