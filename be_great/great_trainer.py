@@ -24,7 +24,7 @@ class GReaTTrainer(Trainer):
     Overwrites the get_train_dataloader methode of the HuggingFace Trainer to not remove the "unused" columns -
     they are needed later!
     """
-    def get_train_dataloader(self) -> DataLoader:
+    def get_train_dataloader(self):
         if self.train_dataset is None:
             raise ValueError("Trainer: training requires a train_dataset.")
 
