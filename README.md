@@ -39,6 +39,9 @@ model.fit(data)
 synthetic_data = model.sample(n_samples=100)
 ```
 
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kathrinse/be_great/blob/main/examples/GReaT_colab_example.ipynb)
+
 ## GReaT Citation 
 
 If you use GReaT, please link or cite our work:
